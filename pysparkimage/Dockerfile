@@ -30,5 +30,3 @@ WORKDIR /app
 ADD . /app
 
 EXPOSE 9999
-
-COPY "quickexample.py" .
