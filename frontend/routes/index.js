@@ -3,7 +3,8 @@ var router = express.Router();
 const {Client} = require('pg')
 
 /* GET home page. */
-router.get('/home', function (req, res, next) {
+router.get('/data', function (req, res, next) {
+    let table = req.query.month
     const client = new Client({
         host: '167.172.98.141',
         database: 'postgres',
@@ -13,7 +14,7 @@ router.get('/home', function (req, res, next) {
     });
     client.connect()
         .then(_ => {
-            const queryRes = client.query('SELECT pickup_latitude, pickup_longitude FROM heatmapdata');
+            const queryRes = client.query(`SELECT pickup_latitude, pickup_longitude FROM ${table}`);
             queryRes.then(result => {
                 client.end()
                 res.json(result.rows)
