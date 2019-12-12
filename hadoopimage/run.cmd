@@ -1,2 +1,3 @@
-docker cp ../bigquerydata namenode:/bigquerydata
-docker exec namenode hdfs dfs -put /bigquerydata /
+docker cp ../chicagodata/data namenode:/chicagodata
+docker exec namenode hdfs dfs -put /chicagodata /
+docker exec -it namenode /bin/bash
