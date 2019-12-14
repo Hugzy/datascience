@@ -1,0 +1,41 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+  <title>Express</title>
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+          integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+          crossorigin=""></script>
+  <script src="vendor/heatmapjs/build/heatmap.min.js"></script>
+  <script src="vendor/leaflet-heatmap/leaflet-heatmap.js"></script>
+  <style>
+    #mapid { height: 1000px; }
+  </style>
+</head>
+
+<body>
+  <div style="float: left">
+    <select id="heatmapMonthSelector">
+      <option value="heatmapdata_1">January</option>
+      <option value="heatmapdata_2">February</option>
+      <option value="heatmapdata_3">March</option>
+      <option value="heatmapdata_4">April</option>
+      <option value="heatmapdata_5">May</option>
+      <option value="heatmapdata_6">June</option>
+      <option value="heatmapdata_7">July</option>
+      <option value="heatmapdata_8">August</option>
+      <option value="heatmapdata_9">September</option>
+      <option value="heatmapdata_10">October</option>
+      <option value="heatmapdata_11">November</option>
+      <option value="heatmapdata_12">December</option>
+    </select>
+    <button onclick="makeHeatmap()">mAkE hEaTmAp</button>
+  </div>
+  <div style="left: 15%" id="mapid"></div>
+</body>
+<script src="javascripts/client.js"></script>
+
+</html>
