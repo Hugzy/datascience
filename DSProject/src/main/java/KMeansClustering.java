@@ -24,7 +24,7 @@ public class KMeansClustering extends Operation {
 
     @Override
     public void process() {
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 12; i++) {
             String path = "/chicago_taxi_trips_2016_";
 
             if (i < 10) {
@@ -55,7 +55,7 @@ public class KMeansClustering extends Operation {
         pickup_longitude.createOrReplaceTempView("longitude");
 
         StringBuilder query = new StringBuilder();
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i <= 12; i++) {
             if (i != 1)
                 query.append(" UNION ");
             query.append("SELECT * FROM input").append(i);
@@ -80,31 +80,26 @@ public class KMeansClustering extends Operation {
                 .setOutputCol("features");
         Dataset<Row> features = vectorAssembler.transform(kMeansData).select("features");
         KMeans km = new KMeans().setK(12).setSeed(10);
-        KMeansModel fit = km.fit(features);
-        Dataset<Row> transform = fit.transform(features);
+        KMeansModel kMeansModel = km.fit(features);
+        Dataset<Row> predictions = kMeansModel.transform(features);
 
-        Vector[] vectors = fit.clusterCenters();
-
-        /*val toArr: Any => Array[Double] = _.asInstanceOf[DenseVector].toArray
-        val toArrUdf = udf(toArr)
-        val dataWithFeaturesArr = dataWithFeatures.withColumn("features_arr",toArrUdf('features))
-        */
+        Vector[] clusterCenters = kMeansModel.clusterCenters();
 
         UserDefinedFunction mode = udf(
                 (Vector ss) -> ss.toArray(), DataTypes.createArrayType(DataTypes.DoubleType)
         );
 
-        Dataset<Row> features1 = transform.select(col("prediction"), mode.apply(col("features")));
+        Dataset<Row> clusterData = predictions.select(col("prediction"), mode.apply(col("features")));
 
         Properties properties = new Properties();
         properties.put("user", PostgresConnection.user);
         properties.put("password", PostgresConnection.password);
 
-        List<Row> row1 = new ArrayList<>();
+        List<Row> clusterCentroidRows = new ArrayList<>();
 
-        for (int i = 0; i < vectors.length; i++) {
-            Vector vector = vectors[i];
-            row1.add(RowFactory.create(i, vector.toArray()));
+        for (int i = 0; i < clusterCenters.length; i++) {
+            Vector vector = clusterCenters[i];
+            clusterCentroidRows.add(RowFactory.create(i, vector.toArray()));
         }
 
         StructType sc = new StructType(new StructField[]{
@@ -112,12 +107,11 @@ public class KMeansClustering extends Operation {
                 new StructField("features", DataTypes.createArrayType(DataTypes.DoubleType), false, Metadata.empty())
         });
 
-        Dataset<Row> clusterCentroid = ss.createDataFrame(row1, sc);
+        Dataset<Row> clusterCentroid = ss.createDataFrame(clusterCentroidRows, sc);
         clusterCentroid.printSchema();
         clusterCentroid.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_centroids", properties);
 
-        transform.printSchema();
-        features1.write().mode(SaveMode.Append).jdbc(PostgresConnection.url, "cluster_data", properties);
-
+        predictions.printSchema();
+        clusterData.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_data", properties);
     }
 }
