@@ -28,18 +28,19 @@ var cfg = {
 var heatmapLayer = new HeatmapOverlay(cfg);
 
 var map = new L.Map('mapid', {
-    center: new L.LatLng(25.6586, -80.3568),
-    zoom: 4,
+    center: new L.LatLng(41.881832, -87.623177),
+    zoom: 10,
     layers: [baseLayer, heatmapLayer]
 });
 
 function makeHeatmap() {
 
     let selector = document.getElementById("heatmapMonthSelector");
+    let limiter = document.getElementById("limiter");
 
-
-
-    fetch(`http://localhost:3000/data?month=${selector.value}`).then(response => {
+    console.log(selector.value);
+    console.log(limiter.value);
+    fetch(`http://localhost:3000/data?month=${selector.value}&limit=${limiter.value}`).then(response => {
         response.json().then( result =>
             {
                 heatmapLayer.setData({

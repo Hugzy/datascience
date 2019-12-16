@@ -11,8 +11,8 @@ import org.apache.spark.sql.types.StructType;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 import static org.apache.spark.sql.functions.col;
 import static org.apache.spark.sql.functions.udf;
@@ -24,35 +24,13 @@ public class KMeansClustering extends Operation {
 
     @Override
     public void process() {
-        for (int i = 1; i <= 12; i++) {
-            String path = "/chicago_taxi_trips_2016_";
 
-            if (i < 10) {
-                path = path + "0" + i + ".csv";
-            } else {
-                path = path + i + ".csv";
-            }
-            // Calculations
-            Dataset<Row> input = ss.read()
-                    .schema(schema)
-                    .option("header", true)
-                    .option("maxColumns", 65565)
-                    .csv(URL + path);
+        DataFetcher.fetch(ss, schema);
+        HashMap<String, Dataset<Row>> mappedData = DataFetcher.GetMapData(ss);
 
-            input.createOrReplaceTempView("input" + i);
-
-
-        }
-
-        Dataset<Row> taxi_id = ss.read().option("multiLine", true).json(URL + "/1-taxi_id.json");
-        Dataset<Row> pickup_latitude = ss.read().option("multiLine", true).json(URL + "/1-pickup_latitude.json");
-        Dataset<Row> pickup_longitude = ss.read().option("multiLine", true).json(URL + "/1-pickup_longitude.json");
-        Dataset<Row> dropoff_latitude = ss.read().option("multiLine", true).json(URL + "/1-dropOff_latitude.json");
-        Dataset<Row> dropoff_longitude = ss.read().option("multiLine", true).json(URL + "/1-dropOff_longitude.json");
-
-        taxi_id.createOrReplaceTempView("taxi");
-        pickup_latitude.createOrReplaceTempView("latitude");
-        pickup_longitude.createOrReplaceTempView("longitude");
+        mappedData.get("taxi_id").createOrReplaceTempView("taxi");
+        mappedData.get("pickup_latitude").createOrReplaceTempView("latitude");
+        mappedData.get("pickup_longitude").createOrReplaceTempView("longitude");
 
         StringBuilder query = new StringBuilder();
         for (int i = 1; i <= 12; i++) {
@@ -91,10 +69,6 @@ public class KMeansClustering extends Operation {
 
         Dataset<Row> clusterData = predictions.select(col("prediction"), mode.apply(col("features")));
 
-        Properties properties = new Properties();
-        properties.put("user", PostgresConnection.user);
-        properties.put("password", PostgresConnection.password);
-
         List<Row> clusterCentroidRows = new ArrayList<>();
 
         for (int i = 0; i < clusterCenters.length; i++) {
@@ -109,9 +83,9 @@ public class KMeansClustering extends Operation {
 
         Dataset<Row> clusterCentroid = ss.createDataFrame(clusterCentroidRows, sc);
         clusterCentroid.printSchema();
-        clusterCentroid.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_centroids", properties);
+        clusterCentroid.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_centroids", this.getProperties());
 
         predictions.printSchema();
-        clusterData.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_data", properties);
+        clusterData.write().mode(SaveMode.Overwrite).jdbc(PostgresConnection.url, "cluster_data", this.getProperties());
     }
 }

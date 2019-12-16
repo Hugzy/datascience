@@ -17,26 +17,15 @@
 </head>
 
 <body>
+  <div >
+    <button onclick="makeCluster()">make cluster</button>
+  </div>
   <div style="float: left">
-    <select id="heatmapMonthSelector">
-      <option value="heatmapdata_1">January</option>
-      <option value="heatmapdata_2">February</option>
-      <option value="heatmapdata_3">March</option>
-      <option value="heatmapdata_4">April</option>
-      <option value="heatmapdata_5">May</option>
-      <option value="heatmapdata_6">June</option>
-      <option value="heatmapdata_7">July</option>
-      <option value="heatmapdata_8">August</option>
-      <option value="heatmapdata_9">September</option>
-      <option value="heatmapdata_10">October</option>
-      <option value="heatmapdata_11">November</option>
-      <option value="heatmapdata_12">December</option>
-    </select>
-    <button onclick="makeHeatmap()">mAkE hEaTmAp</button>
+    <button onclick="makeClusterPoints()">Create cluster points</button>
     <input type="number" id="limiter">
   </div>
   <div style="left: 5%" id="mapid"></div>
 </body>
-<script src="javascripts/client.js"></script>
+<script src="javascripts/cluster.js"></script>
 
 </html>
