@@ -7,6 +7,7 @@ var responseTime = require('response-time')
 
 var indexRouter = require('./routes/index');
 var gpsRouter = require('./routes/gpspaths');
+var statsRouter = require('./routes/stats');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/gps', gpsRouter);
+app.use('/stats', statsRouter);
 
 module.exports = app;
