@@ -34,7 +34,7 @@ function makeCluster() {
                 let latLongs = [];
                 for (let result of results) {
                     latLongs.push(result.features);
-                    L.circle(result.features, {radius: 300, color: centroidColor[`${result.index}`]}).addTo(map).bindTooltip(`Cluster Number: ${result.index} <br> Avg Tips: ${result.avg_tips} <br> Avg Price: ${result.avg_price} <br> Avg Miles: ${result.avg_miles} <br> Avg Seconds: ${result.avg_tripseconds} `, {permanent: false, direction: 'auto'});
+                    L.circle(result.features, {radius: 300, color: centroidColor[`${result.index}`]}).addTo(map).bindTooltip(`Cluster Number: ${result.index} <br> Avg Tips: $${result.avg_tips.toFixed(2)} <br> Avg Price: $${result.avg_price.toFixed(2)} <br> Avg Miles: ${result.avg_miles.toFixed(2)} <br> Avg Seconds: ${parseFloat(result.avg_tripseconds).toFixed(2)} `, {permanent: false, direction: 'auto'});
                 }
                 map.fitBounds(latLongs);
             }
