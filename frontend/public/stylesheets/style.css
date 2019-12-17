@@ -11,5 +11,22 @@ a {
   right: 10%;
 }
 
+#chart_TotalMiles{
+  display: block;
+  float: right;
+}
+#chart_TotalTrips{
+  display: block;
+  float: left;
+}
+#chart_topcompany{
+  display: block;
+  float: right;
+}
+#chart_TotalCosts{
+  display: block;
+  float: left;
+}
+
 
 
