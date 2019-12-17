@@ -30,7 +30,7 @@ router.get('/data', function (req, res, next) {
 
 router.get('/cluster', function (req, res, next) {
     const client = new Client({
-        host: '167.172.98.141',
+            host: '167.172.98.141',
         database: 'postgres',
         user: 'postgres',
         password: 'passw0rd',
@@ -38,7 +38,7 @@ router.get('/cluster', function (req, res, next) {
     });
     client.connect()
         .then(_ => {
-            const queryRes = client.query(`SELECT * FROM cluster_centroids`);
+            const queryRes = client.query(`SELECT index, features, AVG(trip_total) as avg_price, AVG(cluster_data.tips) AS avg_tips, AVG(cluster_data.trip_miles) AS avg_miles, AVG(cluster_data.trip_seconds) AS avg_tripseconds FROM cluster_centroids INNER JOIN cluster_data on cluster_data.prediction = index GROUP BY features, index ORDER BY index`);
             queryRes.then(result => {
                     client.end();
                     res.json(result.rows)

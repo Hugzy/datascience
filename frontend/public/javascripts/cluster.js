@@ -34,7 +34,7 @@ function makeCluster() {
                 let latLongs = [];
                 for (let result of results) {
                     latLongs.push(result.features);
-                    L.circle(result.features, {radius: 300, color: centroidColor[`${result.index}`]}).addTo(map);
+                    L.circle(result.features, {radius: 300, color: centroidColor[`${result.index}`]}).addTo(map).bindTooltip(`Cluster Number: ${result.index} <br> Avg Tips: ${result.avg_tips} <br> Avg Price: ${result.avg_price} <br> Avg Miles: ${result.avg_miles} <br> Avg Seconds: ${result.avg_tripseconds} `, {permanent: false, direction: 'auto'});
                 }
                 map.fitBounds(latLongs);
             }
@@ -50,7 +50,8 @@ function makeClusterPoints() {
     fetch(`http://localhost:3000/cluster-points?limit=${limiter.value}`).then(response => {
         response.json().then(results => {
                 for (let result of results) {
-                    L.circle(result.features, {radius: 50, color: centroidColor[`${result.prediction}`]}).addTo(map);
+                    circle = L.circle(result.features, {radius: 50, color: centroidColor[`${result.prediction}`]}).addTo(map);
+
                 }
             }
         ).then(_ => {
