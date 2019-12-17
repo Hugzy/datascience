@@ -17,20 +17,20 @@ router.get('/data', function (req, res, next) {
         .then(_ => {
             const queryRes = client.query(`SELECT pickup_latitude, pickup_longitude FROM ${table} LIMIT ${limiter}`);
             queryRes.then(result => {
-                client.end()
-                res.json(result.rows)
-              }
+                    client.end()
+                    res.json(result.rows)
+                }
             );
         }).catch(reason => {
-          console.log(reason);
-          console.log("something went wrong, check your connection");
+            console.log(reason);
+            console.log("something went wrong, check your connection");
         }
     );
 });
 
 router.get('/cluster', function (req, res, next) {
     const client = new Client({
-            host: '167.172.98.141',
+        host: '167.172.98.141',
         database: 'postgres',
         user: 'postgres',
         password: 'passw0rd',
@@ -75,5 +75,21 @@ router.get('/cluster-points', function (req, res, next) {
         }
     );
 });
+
+router.get('/clustersite', function (req, res, next) {
+    res.sendFile(process.cwd() + '\\public\\cluster.html')
+});
+
+function routeCluster() {
+    window.location.pathname = '/clustersite';
+}
+
+function routeCharts() {
+    window.location.pathname = '/stats';
+}
+
+function routeHeatMap() {
+    window.location.pathname = '/';
+}
 
 module.exports = router;

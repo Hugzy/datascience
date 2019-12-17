@@ -8,9 +8,30 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.5/chartjs-plugin-annotation.js"></script>
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/graph_style.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Chicago Taxi</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">HeatMap</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/clustersite">Clusters</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/stats">Charts</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div>
     <canvas id="chart_TotalTrips" height="500px" width="700px"></canvas>
     <canvas id="chart_TotalMiles" height="500px" width="700px"></canvas>
