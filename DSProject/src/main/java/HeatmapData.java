@@ -55,10 +55,7 @@ public class HeatmapData extends Operation {
             heatmapData.show();
 
             heatmapData.printSchema();
-            Properties properties = new Properties();
-            properties.put("user", PostgresConnection.user);
-            properties.put("password", PostgresConnection.password);
-            heatmapData.write().mode(SaveMode.Append).jdbc(PostgresConnection.url, "heatmapdata_" + i, properties);
+            heatmapData.write().mode(SaveMode.Append).jdbc(PostgresConnection.url, "heatmapdata_" + i, this.getProperties());
         }
     }
 
