@@ -20,7 +20,7 @@ router.get('/graphtrips', function (req, res, next) {
     });
     client.connect()
         .then(_ => {
-            const queryRes = client.query(`SELECT month, sum(sum_trip_total) FROM trip_data GROUP by month order by month`);
+            const queryRes = client.query(`SELECT month, to_char(to_timestamp (month::text, 'MM'), 'Month') as monthname, sum(number_of_trips) as sum FROM trip_data GROUP by month order by month;`);
             queryRes.then(result => {
                     client.end();
                     res.json(result.rows)
@@ -45,7 +45,7 @@ router.get('/graphmiles', function (req, res, next) {
     });
     client.connect()
         .then(_ => {
-            const queryRes = client.query(`SELECT month, sum(sum_trip_miles) FROM trip_data GROUP by month order by month`);
+            const queryRes = client.query(`SELECT month, to_char(to_timestamp (month::text, 'MM'), 'Month') as monthName, sum(sum_trip_miles) FROM trip_data GROUP by month order by month`);
             queryRes.then(result => {
                     client.end();
                     res.json(result.rows)
