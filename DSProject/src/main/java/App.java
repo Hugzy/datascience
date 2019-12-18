@@ -55,8 +55,8 @@ public class App {
         KMeansClustering kmc = new KMeansClustering(ss, connect, schema);
         AveragePriceLength avp = new AveragePriceLength(ss, connect, schema);
         //hm.process();
-        //kmc.process();
-        avp.process();
+        kmc.process();
+        // avp.process();
 
         ss.close();
     }

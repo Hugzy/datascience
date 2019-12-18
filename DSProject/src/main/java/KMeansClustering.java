@@ -31,6 +31,7 @@ public class KMeansClustering extends Operation {
         mappedData.get("taxi_id").createOrReplaceTempView("taxi");
         mappedData.get("pickup_latitude").createOrReplaceTempView("latitude");
         mappedData.get("pickup_longitude").createOrReplaceTempView("longitude");
+        mappedData.get("company").createOrReplaceTempView("company");
 
         StringBuilder query = new StringBuilder();
         for (int i = 1; i <= 12; i++) {
@@ -46,17 +47,19 @@ public class KMeansClustering extends Operation {
         allData.createOrReplaceTempView("input");
 
         //taxi_id, pickup_latitude, pickup_longitude, dropoff_latitude, dropoff_longitude
-        Dataset<Row> kMeansData = ss.sql("SELECT latitude.pickup_latitude, longitude.pickup_longitude FROM input " +
+        Dataset<Row> kMeansData = ss.sql("SELECT input.trip_seconds, input.trip_miles, input.trip_total, input.tips, input.payment_type, company.company, latitude.pickup_latitude, longitude.pickup_longitude " +
+                "FROM input " +
                 "INNER JOIN latitude ON latitude.id = input.pickup_latitude " +
                 "INNER JOIN longitude ON longitude.id = input.pickup_longitude " +
-                "INNER JOIN taxi ON taxi.id = input.taxi_id" +
+                "INNER JOIN taxi ON taxi.id = input.taxi_id " +
+                "INNER JOIN company on company.id = input.company" +
                 " WHERE " +
                 "input.pickup_latitude IS NOT NULL AND " +
                 "input.pickup_longitude IS NOT NULL");
         VectorAssembler vectorAssembler = new VectorAssembler()
                 .setInputCols(new String[]{"pickup_latitude", "pickup_longitude"})
                 .setOutputCol("features");
-        Dataset<Row> features = vectorAssembler.transform(kMeansData).select("features");
+        Dataset<Row> features = vectorAssembler.transform(kMeansData).select("features", "trip_seconds", "trip_miles", "trip_total", "tips", "payment_type", "company");
         KMeans km = new KMeans().setK(12).setSeed(10);
         KMeansModel kMeansModel = km.fit(features);
         Dataset<Row> predictions = kMeansModel.transform(features);
@@ -67,7 +70,13 @@ public class KMeansClustering extends Operation {
                 (Vector ss) -> ss.toArray(), DataTypes.createArrayType(DataTypes.DoubleType)
         );
 
-        Dataset<Row> clusterData = predictions.select(col("prediction"), mode.apply(col("features")));
+        Dataset<Row> clusterData = predictions.select(col("prediction"), mode.apply(
+                col("features")),
+                col("trip_seconds"),
+                col("trip_miles"),
+                col("trip_total"), col("tips"),
+                col("payment_type"),
+                col("company"));
 
         List<Row> clusterCentroidRows = new ArrayList<>();
 
