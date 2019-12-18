@@ -40,7 +40,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col col-lg-3">
+        <div class="col col-lg-3" style="padding-top: 1%">
+
+            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeCluster()">Show Cluster Centroids</button>
+            <div style="padding-top: 2%"></div>
+            <button type="makeHeatMap" class="btn btn-secondary" id="showPoints" onclick="makeClusterPoints()">Show cluster points</button>
+
             <div class="input-group input-group-sm mb-3" style="padding-top: 5%">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputLimiter-sizing-sm"># Points</span>
@@ -48,9 +53,6 @@
                 <input id="limiter" type="number" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-sm">
             </div>
-            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeCluster()">make cluster</button>
-            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeClusterPoints()">Create cluster points
-            </button>
 
         </div>
         <div class="col" style="padding: 0px">
