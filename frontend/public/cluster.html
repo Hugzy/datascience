@@ -14,11 +14,6 @@
     <script src="vendor/heatmapjs/build/heatmap.min.js"></script>
     <script src="vendor/leaflet-heatmap/leaflet-heatmap.js"></script>
     <link rel="stylesheet" href="stylesheets/Cluster_style.css">
-    <style>
-        #mapid {
-            height: 1000px;
-        }
-    </style>
 </head>
 
 <body>
@@ -42,15 +37,32 @@
         </ul>
     </div>
 </nav>
-<div>
-    <button onclick="makeCluster()">make cluster</button>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-lg-3">
+            <div class="input-group input-group-sm mb-3" style="padding-top: 5%">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputLimiter-sizing-sm"># Points</span>
+                </div>
+                <input id="limiter" type="number" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeCluster()">make cluster</button>
+            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeClusterPoints()">Create cluster points
+            </button>
+
+        </div>
+        <div class="col" style="padding: 0px">
+            <div id="mapid"></div>
+        </div>
+    </div>
 </div>
-<div style="float: left">
-    <button onclick="makeClusterPoints()">Create cluster points</button>
-    <input type="number" id="limiter">
-</div>
-<div style="left: 5%" id="mapid"></div>
+
+
 </body>
+
+
 <script src="javascripts/cluster.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

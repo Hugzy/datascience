@@ -32,7 +32,7 @@
                 <a class="nav-link" href="/">HeatMap <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/clustersite" >Clusters</a>
+                <a class="nav-link" href="/clustersite">Clusters</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/stats">Charts</a>
@@ -42,26 +42,62 @@
 </nav>
 
 
-<div style="float: left">
-    <select class="form-control" id="heatmapMonthSelector">
-        <option value="heatmapdata_1">January</option>
-        <option value="heatmapdata_2">February</option>
-        <option value="heatmapdata_3">March</option>
-        <option value="heatmapdata_4">April</option>
-        <option value="heatmapdata_5">May</option>
-        <option value="heatmapdata_6">June</option>
-        <option value="heatmapdata_7">July</option>
-        <option value="heatmapdata_8">August</option>
-        <option value="heatmapdata_9">September</option>
-        <option value="heatmapdata_10">October</option>
-        <option value="heatmapdata_11">November</option>
-        <option value="heatmapdata_12">December</option>
-    </select>
-<!--    <button id="makeHeatMap" onclick="makeHeatmap()">mAkE hEaTmAp</button>-->
-    <button type="makeHeatMap" class="btn btn-secondary" onclick="makeHeatmap()">Secondary</button>
-    <input type="number" id="limiter">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-lg-3">
+<!--            <select class="form-control" id="heatmapMonthSelector">-->
+<!--                <option value="heatmapdata_1">January</option>-->
+<!--                <option value="heatmapdata_2">February</option>-->
+<!--                <option value="heatmapdata_3">March</option>-->
+<!--                <option value="heatmapdata_4">April</option>-->
+<!--                <option value="heatmapdata_5">May</option>-->
+<!--                <option value="heatmapdata_6">June</option>-->
+<!--                <option value="heatmapdata_7">July</option>-->
+<!--                <option value="heatmapdata_8">August</option>-->
+<!--                <option value="heatmapdata_9">September</option>-->
+<!--                <option value="heatmapdata_10">October</option>-->
+<!--                <option value="heatmapdata_11">November</option>-->
+<!--                <option value="heatmapdata_12">December</option>-->
+<!--            </select>-->
+            <!--    <button id="makeHeatMap" onclick="makeHeatmap()">mAkE hEaTmAp</button>-->
+            <!--            <input type="number" id="limiter">-->
+            <div class="input-group input-group-sm mb-3" style="padding-top: 5%">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputMonth-sizing-sm">Month</span>
+                </div>
+                <select class="form-control" id="heatmapMonthSelector">
+                    <option value="heatmapdata_1">January</option>
+                    <option value="heatmapdata_2">February</option>
+                    <option value="heatmapdata_3">March</option>
+                    <option value="heatmapdata_4">April</option>
+                    <option value="heatmapdata_5">May</option>
+                    <option value="heatmapdata_6">June</option>
+                    <option value="heatmapdata_7">July</option>
+                    <option value="heatmapdata_8">August</option>
+                    <option value="heatmapdata_9">September</option>
+                    <option value="heatmapdata_10">October</option>
+                    <option value="heatmapdata_11">November</option>
+                    <option value="heatmapdata_12">December</option>
+                </select>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputLimiter-sizing-sm">Fetch Limit</span>
+                </div>
+                <input id="limiter" type="number" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <button type="makeHeatMap" class="btn btn-secondary" onclick="makeHeatmap()">Fetch Heat Map</button>
+        </div>
+        <div class="col" style="padding: 0px">
+            <div id="mapid"></div>
+        </div>
+
+
+    </div>
+
 </div>
-<div style="left: 5%" id="mapid"></div>
+
 </body>
 <script src="javascripts/client.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

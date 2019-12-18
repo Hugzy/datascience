@@ -1,17 +1,12 @@
 body {
   /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgba(35,35,33,0.79);
+  background-color: rgb(239, 239, 239);
 }
 
 #mapid {
   height: 750px;
 }
 
-#heatmapMonthSelector{
-  float: left;
-  width: 100px;
-  /*height: 30px;*/
-  font-size: small;
-}
+
 
