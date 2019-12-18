@@ -47,7 +47,10 @@ public class KMeansClustering extends Operation {
         allData.createOrReplaceTempView("input");
 
         //taxi_id, pickup_latitude, pickup_longitude, dropoff_latitude, dropoff_longitude
-        Dataset<Row> kMeansData = ss.sql("SELECT input.trip_seconds, input.trip_miles, input.trip_total, input.tips, input.payment_type, company.company, latitude.pickup_latitude, longitude.pickup_longitude " +
+        Dataset<Row> kMeansData = ss.sql("SELECT input.trip_seconds, input.trip_miles, " +
+                "input.trip_total, input.tips, " +
+                "input.payment_type, company.company, " +
+                "latitude.pickup_latitude, longitude.pickup_longitude " +
                 "FROM input " +
                 "INNER JOIN latitude ON latitude.id = input.pickup_latitude " +
                 "INNER JOIN longitude ON longitude.id = input.pickup_longitude " +

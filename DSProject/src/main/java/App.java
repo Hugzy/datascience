@@ -54,9 +54,9 @@ public class App {
         HeatmapData hm = new HeatmapData(ss, connect, schema);
         KMeansClustering kmc = new KMeansClustering(ss, connect, schema);
         AveragePriceLength avp = new AveragePriceLength(ss, connect, schema);
-        //hm.process();
+        hm.process();
         kmc.process();
-        // avp.process();
+        avp.process();
 
         ss.close();
     }
