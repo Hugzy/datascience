@@ -34,5 +34,16 @@ a {
   padding-left: 1%;
 }
 
+#chart_averages{
+  display: block;
+  float: left;
+  padding-left: 1%;
+}
+#chart_tripcost{
+  display: block;
+  float: right;
+  padding-right: 1%;
+}
+
 
 

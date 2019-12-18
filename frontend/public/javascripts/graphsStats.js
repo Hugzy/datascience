@@ -213,7 +213,7 @@ function renderStats_cost(json) {
 }
 
 function renderStats_topcompany(json) {
-    console.log(json)
+
     let labels = json.map(obj => obj.company);
     let data = json.map(obj => obj.totalnumberoftrips);
     let colorFill = 'rgba(36,235,96,0.2)'
@@ -284,7 +284,7 @@ function renderStats_topcompany(json) {
 }
 
 function renderStats_averages(json) {
-    console.log(json)
+
     let labels = json.map(obj => obj.company);
     let data_tripMiles = json.map(obj => obj.tripmiles);
     let data_tripTotal = json.map(obj => obj.triptotal);
@@ -432,6 +432,68 @@ function renderStats_averages(json) {
 
 }
 
+
+function renderStats_Scatter(json) {
+
+    let datapoints = [];
+    json.forEach(data => {
+        obj = {x: data.sumcost.toFixed(2)};
+        obj['y'] = parseFloat(data.sumtrips);
+        datapoints.push(obj)
+    });
+
+    console.log(datapoints);
+    let colorFill = 'rgba(5,12,12,0.2)';
+    let colorStroke = 'rgb(5,12,12)';
+
+    var ctx = document.getElementById('chart_tripcost').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            labels: 'Scatter Plot',
+            datasets: [{
+                label: 'per Month',
+                data: datapoints,
+                backgroundColor: [
+                    colorFill
+                ],
+                borderColor: [
+                    colorStroke
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Cost Related to # of Trips'
+            },
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value, index, values) {
+                            return '$' + numberWithCommas(value)
+                        }
+                    }
+                }],
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value, index, values) {
+                            return numberWithCommas(value)
+                        }
+                    }
+                }]
+            }
+        }
+    });
+
+}
+
 getStats('http://localhost:3000/stats/graphtrips').then(json => {
     renderStats_trips(json)
 });
@@ -450,6 +512,10 @@ getStats('http://localhost:3000/stats/graphtopcompany').then(json => {
 
 getStats('http://localhost:3000/stats/graphaveragecostmilespercompany').then(json => {
     renderStats_averages(json)
+});
+
+getStats('http://localhost:3000/stats/graphscatternumoftripscost').then(json => {
+    renderStats_Scatter(json)
 });
 
 

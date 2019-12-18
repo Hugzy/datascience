@@ -132,6 +132,31 @@ router.get('/graphaveragecostmilespercompany', function (req, res, next) {
     );
 });
 
+router.get('/graphscatternumoftripscost', function (req, res, next) {
+
+    const client = new Client({
+        host: '167.172.98.141',
+        database: 'postgres',
+        user: 'postgres',
+        password: 'passw0rd',
+        port: 5432
+    });
+    client.connect()
+        .then(_ => {
+            const queryRes = client.query(`SELECT month, to_char(to_timestamp (month::text, 'MM'), 'Month') as monthname, sum(number_of_trips) as sumtrips, sum(sum_trip_total) as sumcost FROM trip_data GROUP by month order by month;`);
+            queryRes.then(result => {
+                    client.end();
+                    res.json(result.rows)
+                }
+            );
+        }).catch(reason => {
+            console.log(reason);
+            console.log("something went wrong, check your connection");
+        }
+    );
+});
+
+
 
 
 
