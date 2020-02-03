@@ -474,7 +474,7 @@ function renderStats_Scatter(json) {
                     ticks: {
                         beginAtZero: true,
                         callback: function (value, index, values) {
-                            return '$' + numberWithCommas(value)
+                            return numberWithCommas(value)
                         }
                     }
                 }],
@@ -484,7 +484,7 @@ function renderStats_Scatter(json) {
                     ticks: {
                         beginAtZero: true,
                         callback: function (value, index, values) {
-                            return numberWithCommas(value)
+                            return '$' + numberWithCommas(value)
                         }
                     }
                 }]
