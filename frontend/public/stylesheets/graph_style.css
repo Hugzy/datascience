@@ -1,0 +1,49 @@
+body {
+
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(239, 239, 239);
+}
+
+a {
+  color: #00B7FF;
+}
+
+.map {
+  right: 10%;
+}
+
+#chart_TotalMiles{
+  display: block;
+  float: right;
+  padding-right: 1%;
+
+}
+#chart_TotalTrips{
+  display: block;
+  float: left;
+  padding-left: 1%;
+}
+#chart_topcompany{
+  display: block;
+  float: right;
+  padding-right: 1%;
+}
+#chart_TotalCosts{
+  display: block;
+  float: left;
+  padding-left: 1%;
+}
+
+#chart_averages{
+  display: block;
+  float: left;
+  padding-left: 1%;
+}
+#chart_tripcost{
+  display: block;
+  float: right;
+  padding-right: 1%;
+}
+
+
+
